@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 4.2)
+project(FirstGameEngine)
+
+set(CMAKE_CXX_STANDARD 20)
+option(MYGAME_VENDORED "Use vendored libraries" OFF)
+if (WIN32)
+    add_subdirectory(../SDL ../SDL  EXCLUDE_FROM_ALL)
+else ()
+    add_subdirectory(../vendored/SDL ../vendored/SDL  EXCLUDE_FROM_ALL)
+endif ()
+add_executable(FirstGameEngine main.cpp)
+target_link_libraries(FirstGameEngine PRIVATE SDL3::SDL3)

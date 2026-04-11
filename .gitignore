@@ -1,0 +1,7 @@
+*.o
+.idea
+vendored/SDL/*.dylib
+vendored/SDL/*.sym
+vendored/SDL/*.a
+CMakeFiles
+
