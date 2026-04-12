@@ -128,6 +128,48 @@ SDL_AppResult SDL_AppIterate(void *appstate)
             down_index ^= 7;
         }
         SDL_FPoint origin, right, down;
+        origin.x = x1 + px*corners[0 + 2*origin_index];
+        origin.y = y0 + px*corners[1 + 2*origin_index];
+        right.x  = x1 + px*corners[0 + 2*right_index];
+        right.y  = y0 + px*corners[1 + 2*right_index];
+        down.x   = x1 + px*corners[0 + 2*down_index];
+        down.y   = y0 + px*corners[1 + 2*down_index];
+        SDL_RenderTextureAffine(renderer, texture, NULL, &origin, &right, &down);
+    }
+    for (i = 1; i < 7; i++) {
+        const int dir = 3 & ((i & 4) ? ~i : i);
+        const int odd = (i & 1) ^ ((i & 2) >> 1) ^ ((i & 4) >> 2);
+        if (0 < (odd ? 1.0f : -1.0f) * mat[5 + dir]) continue;
+        int origin_index = (1 << ((dir - 1) % 3));
+        int right_index = (1 << ((dir + odd) % 3)) | origin_index;
+        int down_index = (1 << ((dir + (odd^1)) % 3)) | origin_index;
+        if (!odd) {
+            origin_index ^= 7;
+            right_index ^= 7;
+            down_index ^= 7;
+        }
+        SDL_FPoint origin, right, down;
+        origin.x = x0 + px*corners[0 + 2*origin_index];
+        origin.y = y1 + px*corners[1 + 2*origin_index];
+        right.x  = x0 + px*corners[0 + 2*right_index];
+        right.y  = y1 + px*corners[1 + 2*right_index];
+        down.x   = x0 + px*corners[0 + 2*down_index];
+        down.y   = y1 + px*corners[1 + 2*down_index];
+        SDL_RenderTextureAffine(renderer, texture, NULL, &origin, &right, &down);
+    }
+    for (i = 1; i < 7; i++) {
+        const int dir = 3 & ((i & 4) ? ~i : i);
+        const int odd = (i & 1) ^ ((i & 2) >> 1) ^ ((i & 4) >> 2);
+        if (0 < (odd ? 1.0f : -1.0f) * mat[5 + dir]) continue;
+        int origin_index = (1 << ((dir - 1) % 3));
+        int right_index = (1 << ((dir + odd) % 3)) | origin_index;
+        int down_index = (1 << ((dir + (odd^1)) % 3)) | origin_index;
+        if (!odd) {
+            origin_index ^= 7;
+            right_index ^= 7;
+            down_index ^= 7;
+        }
+        SDL_FPoint origin, right, down;
         origin.x = x0 + px*corners[0 + 2*origin_index];
         origin.y = y0 + px*corners[1 + 2*origin_index];
         right.x  = x0 + px*corners[0 + 2*right_index];
