@@ -82,6 +82,14 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 }
 
 /* This function runs once per frame, and is the heart of the program. */
+
+float rotateSpeed(float r) {
+    const Uint64 now = SDL_GetTicks();
+     return (((float) ((int) (now % 2000))) / r) * SDL_PI_F * 2;
+}
+
+
+
 SDL_AppResult SDL_AppIterate(void *appstate)
 {
     const float x0 = 0.25f * WINDOW_WIDTH;
@@ -91,7 +99,8 @@ SDL_AppResult SDL_AppIterate(void *appstate)
     const float px = SDL_min(WINDOW_WIDTH, WINDOW_HEIGHT) / SDL_sqrtf(3.0f);
 
     const Uint64 now = SDL_GetTicks();
-    const float rad = (((float) ((int) (now % 2000))) / 2000.0f) * SDL_PI_F * 2;
+    //const float rad = (((float) ((int) (now % 2000))) / 2000.0f) * SDL_PI_F * 2;
+    auto rad = rotateSpeed(2000.0f);
     const float cos = SDL_cosf(rad);
     const float sin = SDL_sinf(rad);
     const float k[3] = { 3.0f / SDL_sqrtf(50.0f), 4.0f / SDL_sqrtf(50.0f), 5.0f / SDL_sqrtf(50.0f)};
