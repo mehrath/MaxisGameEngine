@@ -85,7 +85,10 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event)
 
 float rotateSpeed(float r) {
     const Uint64 now = SDL_GetTicks();
-     return (((float) ((int) (now % 2000))) / r) * SDL_PI_F * 2;
+     float rad = (((float) ((int) ((Uint64)(now*r) % 2000))) / 2000.0f) * SDL_PI_F * 2;
+    const float sin = SDL_sinf(rad);
+     return sin * SDL_PI_F * 2;
+     //return (((float) ((int) ((Uint64)(now*r) % 2000))) / 2000.0f) * SDL_PI_F * 2;
 }
 
 
@@ -100,9 +103,10 @@ SDL_AppResult SDL_AppIterate(void *appstate)
 
     const Uint64 now = SDL_GetTicks();
     //const float rad = (((float) ((int) (now % 2000))) / 2000.0f) * SDL_PI_F * 2;
-    auto rad = rotateSpeed(2000.0f);
+    auto rad = rotateSpeed(0.1f);
     const float cos = SDL_cosf(rad);
     const float sin = SDL_sinf(rad);
+
     const float k[3] = { 3.0f / SDL_sqrtf(50.0f), 4.0f / SDL_sqrtf(50.0f), 5.0f / SDL_sqrtf(50.0f)};
     float mat[9] = { 
          cos      + (1.0f-cos)*k[0]*k[0], -sin*k[2] + (1.0f-cos)*k[0]*k[1],  sin*k[1] + (1.0f-cos)*k[0]*k[2], 
